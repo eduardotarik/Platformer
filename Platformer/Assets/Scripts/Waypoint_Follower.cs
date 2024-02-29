@@ -16,6 +16,8 @@ public class Waypoint_Follower : MonoBehaviour
     // Serialized field to set the movement speed of the follower
     [SerializeField] private float speed = 2f;
 
+    private bool movingRight = true;
+
     // Update is called once per frame
     void Update()
     {
@@ -30,9 +32,23 @@ public class Waypoint_Follower : MonoBehaviour
             {
                 currentWaypointIndex = 0;
             }
+
+            // Flip the direction when reaching a waypoint
+            FlipDirection();
         }
 
         // Moving the follower towards the current waypoint using MoveTowards method
         transform.position = Vector2.MoveTowards(transform.position, waypoints[currentWaypointIndex].transform.position, Time.deltaTime * speed);
+    }
+
+    void FlipDirection()
+    {
+        // Change the direction of patrolling
+        movingRight = !movingRight;
+
+        // Flip the object horizontally
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }
